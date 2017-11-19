@@ -21,7 +21,7 @@ object Time {
   val initial = Time(0)
 }
 
-case class Map(width: Int, height: Int, initialCells: Set[Cell]) {
+case class Map(width: Int, height: Int, initiallyActiveCells: Set[Cell]) {
 
   val cells: Set[Cell] = (
     for {
@@ -30,7 +30,7 @@ case class Map(width: Int, height: Int, initialCells: Set[Cell]) {
     } yield Cell(x0, y0)
   ).toSet
 
-  val frames: Stream[Frame] = Stream.iterate(Frame(Time.initial, initialCells))(lastFrame =>
+  val frames: Stream[Frame] = Stream.iterate(Frame(Time.initial, initiallyActiveCells))(lastFrame =>
     Frame(
       lastFrame.time.next,
       cells.filter(cell => {
@@ -58,7 +58,7 @@ object Main {
     val map = Map(
       width = 60,
       height = 60,
-      initialCells = Set(
+      Set(
         Cell(10, 10),
         Cell(11, 11),
         Cell(12, 11),
